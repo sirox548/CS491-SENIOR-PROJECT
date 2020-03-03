@@ -53,12 +53,12 @@ const validationSchema = yup.object({
     .required()
     .max(10),
 
-  pets: yup.array().of(
-    yup.object({
-      name: yup.string().required()
+//   pets: yup.array().of(
+//     yup.object({
+//       name: yup.string().required()
      
-    })
-  )
+//     })
+//   )
 });
 
 const App: React.FC = () => {
