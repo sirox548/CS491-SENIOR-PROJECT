@@ -38,6 +38,8 @@ export default function FormikForm() {
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
+        
+        console.log("submit: ", values);
 
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
