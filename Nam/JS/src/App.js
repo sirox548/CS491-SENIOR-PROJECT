@@ -108,17 +108,17 @@ console.log(event.target.files[0]);     //LOGS THE SELECTED FILE
 selectedFile: event.target.files[0]
     });
   }
-  fileUploadHandler = () => {           //UPLOADING THE SELECTED FILE
+  fileUploadHandler = () => {           //UPLOADING THE SELECTED FILE USING FORM DATA
     const fd = new FormData();
     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    Axios.post('', fd, {
+    Axios.post('', fd, {                 //LOCATION TO POST TO (place location between quotes)
       onUploadProgress: progressEvent => {
         console.log('Image Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
       }
     })
     .then(res => {
       console.log(res);
-    });                 //LOCATION TO UPLOAD TO
+    });                 
   };
                                         //FORM DATA
   render() {
