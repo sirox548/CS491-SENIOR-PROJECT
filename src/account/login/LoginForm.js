@@ -1,98 +1,136 @@
-import React from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import Error from "../Error";
+import React, { Component } from "react";
 
-const ValidationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(1, "Too Short!")
-    .max(255, "Too Long!")
-    .required("Required"),
+import "../App.css";
 
-  pass: Yup.string()
-    .min(1, "Too Short!")
-    .max(255, "Too Long!")
-    .required("Required")
+const emailRegex = RegExp(
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+);
 
-  // email: Yup.string()
-  //     .email("Must be an email address")
-  //     .max(255, "Too Long!")
-  //     .required("Required")
-});
+const formValid = ({ formErrors, ...rest }) => {
+  let valid = true;
 
-export default function LoginForm() {
-  return (
-    <Formik
-      initialValues={{
-        name: "",
-        pass: ""
-      }}
-      validationSchema={ValidationSchema}
-      validate={values => {
-        let errors = {};
+  // validate form errors being empty
+  Object.values(formErrors).forEach(val => {
+    val.length > 0 && (valid = false);
+  });
 
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setSubmitting(true);
+  // validate the form was filled out
+  Object.values(rest).forEach(val => {
+    val === null && (valid = false);
+  });
 
-        console.log("submit: ", values);
+  return valid;
+};
 
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          resetForm();
-          setSubmitting(false);
-        }, 500);
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        setFieldValue
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <h2>Login</h2>
+class LoginForm extends Component {
+  constructor(props) {
+    super(props);
 
-          <div className="input-row">
-            <label>Username</label>
-            <input
-              type="text"
-              name="name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.name}
-              className={touched.name && errors.name ? "has-error" : null}
-            />
-            <Error touched={touched.name} message={errors.name} />
-          </div>
+    this.state = {
+      // userName: null,
+      email: null,
+      password: null,
+      formErrors: {
+        // userName: "",
+        email: "",
+        password: ""
+      }
+    };
+  }
 
-          <div className="input-row">
-            <label>Password</label>
-            <input
-              type="text"
-              name="pass"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.pass}
-              className={touched.pass && errors.pass ? "has-error" : null}
-            />
-            <Error touched={touched.pass} message={errors.pass} />
-          </div>
+  handleSubmit = e => {
+    e.preventDefault();
 
-          {}
+    if (formValid(this.state)) {
+      console.log(`
+        --SUBMITTING--
+        Email: ${this.state.email}
+        Password: ${this.state.password}
+      `);
+    } else {
+      console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+    }
+  };
 
-          <div className="input-row">
-            <button type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </div>
-        </form>
-      )}
-    </Formik>
-  );
-}
+  handleChange = e => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    let formErrors = { ...this.state.formErrors };
+
+    switch (name) {
+      case "email":
+        formErrors.email = emailRegex.test(value)
+          ? ""
+          : "invalid email address";
+        break;
+      case "password":
+        formErrors.password =
+          value.length < 6 ? "minimum 6 characters required" : "";
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+  };
+  state = {
+    selectedFile: null
+  };
+  //FORM DATA
+  render() {
+    // adding
+    const { formErrors } = this.state;
+
+    return (
+      <div className="wrapper">
+        <div className="form-wrapper">
+          <h1>Login</h1>
+          <form
+            className="account-form"
+            onSubmit={this.handleSubmit}
+            noValidate
+          >
+            <div className="email">
+              <label htmlFor="email"></label>
+              <input
+                className={formErrors.email.length > 0 ? "error" : null}
+                placeholder="Email"
+                type="email"
+                name="email"
+                noValidate
+                onChange={this.handleChange}
+              />
+              {formErrors.email.length > 0 && (
+                <span className="errorMessage">{formErrors.email}</span>
+              )}
+            </div>
+
+            <div className="password">
+              <label htmlFor="password"></label>
+              <input
+                className={formErrors.password.length > 0 ? "error" : null}
+                placeholder="Password"
+                type="password"
+                name="password"
+                noValidate
+                onChange={this.handleChange}
+              />
+              {formErrors.password.length > 0 && (
+                <span className="errorMessage">{formErrors.password}</span>
+              )}
+            </div>
+
+            <div className="createAccount">
+              <button type="submit">Continue</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    ); //return
+  }
+
+  //
+} //render
+//app component
+
+export default LoginForm;

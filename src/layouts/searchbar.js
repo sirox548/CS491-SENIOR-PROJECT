@@ -1,22 +1,15 @@
 import React, { Component } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(theme => ({
-  content: {
-    color: "red"
-  }
-}));
 
 export class SearchBar extends Component {
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     return (
-      <div className={classes.form}>
+      <div>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style
           dangerouslySetInnerHTML={{
             __html:
-              '\n          input[type="text"] {\n            width: 400px;\n            box-sizing: border-box;\n  margin:2em 0 .5em 0;\n          border: 2px solid #ccc;\n            border-radius: 4px;\n            font-size: 16px;\n            background-color: white;\n            background-image: url("searchicon.png");\n            background-position: 10px 10px;\n            background-repeat: no-repeat;\n            padding: 16px 20px 16px 40px;\n            -webkit-transition: width 0.4s ease-in-out;\n            transition: width 0.4s ease-in-out;\n          }\n    \n          input[type="text"]:focus {\n            width: 70%;\n  outline:none \n'
+              '\n          input[type="text"] {\n            width: 400px;\n            box-sizing: border-box;\n  margin:7em 0 .5em 0;\n          border: 2px solid #ccc;\n            border-radius: 4px;\n            font-size: 16px;\n            background-color: white;\n            background-image: url("searchicon.png");\n            background-position: 10px 10px;\n            background-repeat: no-repeat;\n            padding: 16px 20px 16px 40px;\n            -webkit-transition: width 0.4s ease-in-out;\n            transition: width 0.4s ease-in-out;\n          }\n    \n          input[type="text"]:focus {\n            width: 70%;\n  outline:none \n'
           }}
         />
         <form>
@@ -51,4 +44,6 @@ export class SearchBar extends Component {
   }
 }
 
-export default withStyles(useStyles)(SearchBar);
+// export default withStyles(useStyles)(SearchBar);
+
+export default SearchBar;

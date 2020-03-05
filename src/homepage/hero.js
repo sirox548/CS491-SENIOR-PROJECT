@@ -6,9 +6,9 @@ const heroStyle = {
   margin: "0",
   padding: "0",
   backgroundImage: `url(${hero})`,
-  height: "550px",
+  height: "650px",
   backgroundSize: "cover",
-  backgroundPosition: "50% 35%",
+  backgroundPosition: "50% 25%",
   textAlign: "center"
 };
 

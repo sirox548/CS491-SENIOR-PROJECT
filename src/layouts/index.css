@@ -2,7 +2,6 @@ body {
   margin: 0px;
   padding: 0px;
   font-size: 1rem;
-  font-family: "Roboto, sans-serif;";
 }
 
 /* header */
@@ -13,6 +12,12 @@ body {
   margin-left: 6.5em;
 }
 
+.appBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
 .MuiButtonBase-root {
   padding: 0.75em 0.5em;
   float: left;
@@ -20,7 +25,7 @@ body {
   margin: 1em 3em 0 0;
 }
 .MuiAppBar-colorPrimary {
-  background-color: rgb(238, 238, 238);
+  background-color: rgba(238, 238, 238, 1);
 }
 
 .MuiButton-contained {
