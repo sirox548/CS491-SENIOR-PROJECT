@@ -199,11 +199,11 @@ selectedFile: event.target.files[0]
             </div>
 
             <div className="App">
-        {/* <small>Upload Profile Image</small><div></div> */}
+        {<small>Upload Profile Image</small><div></div>}
         <input type="file" onChange={this.fileSelectedHandler}              //PICKING AN IMAGE
         ref={fileInput => this.fileInput = fileInput} />
         {/* <button onClick={() => this.fileInput.click()}>Pick File</button> */}
-        <button onClick={this.fileUploadHander}> Upload </button>
+        <button onClick={this.fileUploadHandler}> Upload </button>
       </div>
 
             <div className="createAccount">
