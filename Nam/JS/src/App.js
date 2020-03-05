@@ -111,7 +111,14 @@ selectedFile: event.target.files[0]
   fileUploadHandler = () => {           //UPLOADING THE SELECTED FILE
     const fd = new FormData();
     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
-    Axios.post('', fd);                 //LOCATION TO UPLOAD TO
+    Axios.post('', fd, {
+      onUploadProgress: progressEvent => {
+        console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+      }
+    })
+    .then(res => {
+      console.log(res);
+    });                 //LOCATION TO UPLOAD TO
   };
                                         //FORM DATA
   render() {
@@ -199,7 +206,7 @@ selectedFile: event.target.files[0]
             </div>
 
             <div className="App">
-        {<small>Upload Profile Image</small><div></div>}
+        <small>Upload Profile Image</small><div></div>
         <input type="file" onChange={this.fileSelectedHandler}              //PICKING AN IMAGE
         ref={fileInput => this.fileInput = fileInput} />
         {/* <button onClick={() => this.fileInput.click()}>Pick File</button> */}
