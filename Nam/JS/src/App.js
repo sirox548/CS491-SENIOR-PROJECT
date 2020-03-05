@@ -113,7 +113,7 @@ selectedFile: event.target.files[0]
     fd.append('image', this.state.selectedFile, this.state.selectedFile.name);
     Axios.post('', fd, {
       onUploadProgress: progressEvent => {
-        console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+        console.log('Image Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
       }
     })
     .then(res => {
