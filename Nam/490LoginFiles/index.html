@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="index.css">
+  </head>
+
+  <body>
+
+    <form class="form" name="myForm" id="myForm">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password">
+      <button type="button" id="button">Login</button>
+
+    </fieldset>
+
+</form>
+</body>
+
+<script type="text/javascript">
+/* ---------------start of scripts ------------------- */
+  //  var ucid = document.myForm.ucid.value;
+  //  var username = document.getElementById('ucid');
+  //  var pass = document.myForm.pass.value;
+  //  var password = document.getElementById('pass');
+    var button = document.getElementById('button');
+/* --------------addEventListener-------------*/
+  //  myForm.addEventListener('submit', function (e){      /*addEventListener1*/
+  //    e.preventDefault();
+//      var formData = new FormData(this);
+  //    var searchParams = new URLSearchParams();
+    button.addEventListener('click', func);              /*addEventListener2*/
+          function func(){
+            //  var formElement = document.querySelector("form");
+            //  var payload = JSON.stringify({"role": $json_array2});
+          var ucid = document.myForm.username.value;
+          var pw = document.myForm.password.value;
+           var xhttp = new XMLHttpRequest();
+           var payload = JSON.stringify({"username": ucid, "password": pw});
+          // console.log(payload);
+            xhttp.open("post", "http://afsaccess1.njit.edu/~ntb6/FrontPHP.php", true);
+            xhttp.send(payload);
+            console.log(payload);
+         xhttp.onreadystatechange = function()         /*problem*/
+          {
+            if (this.readyState == 4 && this.status == 200) {
+              var error = "Incorrect ucid/pass"
+              var response = this.responseText;
+          //  console.log(response);
+              var parsed = JSON.parse(response);
+          //   console.log(parsed);
+          if(parsed == null || response.length == 0)
+           {
+             console.log("Invalid UCID or Password");
+             // window.location.href = "http://afsaccess1.njit.edu/~ntb6/invalid.html"
+             alert('Incorrect Username or Password'); return;
+            }
+              else if(parsed.type == "s")
+              {
+                window.location.href = "http://afsaccess1.njit.edu/~ntb6/WelcomeStud.php";
+              }
+              else if(parsed.type == "i"){
+                window.location.href = "http://afsaccess1.njit.edu/~ntb6/WelcomeInst.php";
+              }
+               else{
+                 document.getElementById("error").innerHTML = error;
+                }
+              }
+
+            };
+            //xhttp.open("POST", "FrontPHP.php", true);
+            //xhttp.send(new FormData(formElement));
+          };
+      //    for (var pair of formData) {
+      //        searchParams.append(pair[0], pair[1]);
+    //  }
+  //    fetch('http://afsaccess1.njit.edu/~ntb6/FrontPHP.php',{
+//          method: 'post',
+//          body: searchParams
+//      }).then(function (response){
+  //        return response.text();
+  //    }).then(function (text){
+//          console.log(text);
+//      }).catch(function (error){
+//        })
+    //  });
+      /* ----------------------- end of scripts ----------------------------- */
+    //  <p id="insert1" ></p>           //these two lines were after script, in the body
+    //        <p id="insert2" ></p>
+      </script>
+    </body>
+</html>
