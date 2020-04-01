@@ -12,18 +12,18 @@ class App extends Component {
 
 componentDidMount(){
 
-    // fetch('https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/viewAllJobs')
+    fetch('https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/viewAllJobs')
 
-    fetch('https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/viewAllJobs', 
-    {
-        method: 'post',
-        headers: 
-        {
-        "Content-Type": "application/json",
-        'Accept': 'application/json'
-        },
-        body: JSON.stringify(this.state)
-  })
+//     fetch('https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/viewAllJobs', 
+//     {
+//         method: 'post',
+//         headers: 
+//         {
+//         "Content-Type": "application/json",
+//         'Accept': 'application/json'
+//         },
+//         body: JSON.stringify(this.state)
+//   })
     .then(res => res.json())
     .then(json => {
         this.setState({
