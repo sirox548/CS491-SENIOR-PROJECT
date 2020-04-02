@@ -1,0 +1,174 @@
+<body onload="loadJobs()">
+<link rel="stylesheet" type="text/css" href="ViewJobs.css"
+href="https://fonts.googleapis.com/css?family=Tangerine" >
+<div class="container">
+
+ 
+  <div class="flex-item">
+  <input type="text" id="myinput" onkeyup="filter()" placeholder="Search Job Title" value=''>
+
+  <!-- use as parameters for filter1
+  this.value, document.getElementByName('topic').value, document.getElementByName('difficulty').value, document.getElementByName('constraint').value -->
+
+
+  <select id="locationlist" onchange="filter()" name="location">
+          <option value="Filter By Location">Filter by Location</option>
+          <!-- <option value="None">None<br></option> -->
+          <option value="Parsippany">Parsippany<br></option>
+          <option value="Jersey City">Jersey City<br></option>
+          <option value="Union">Union<br></option>
+  </select>
+
+<div class="flex-item">
+     
+        <table id="myTable">
+            <form id="myform">
+                <tr class="header">
+                    <th style="width:16%;">Job Title</th>
+                    <th style="width:10%;">Salary</th>
+                    <th style="width:30%;">Description</th>
+                    <th style="width:12%;">Location</th>
+                    <th style="width:3%;">Years of Experience</th>
+                    <th style="width:20%;">Skills Required</th>
+                 <!-- <th style="width:20%;">Points</th> -->
+                    <th style="width:3;">Select Job</th> 
+                </tr>
+        </table>
+        <table id="myTable">
+        </table>
+        <br>
+        <button type="submit" id="submit" onclick="return confirm('Do you want to add job(s)?')">Add Jobs</button>
+    </br>
+        </form>
+    </div>
+</div>
+</div>
+
+<div id="response"></div>
+<script>
+
+    var i=0;
+    document.getElementById('submit').addEventListener('click', makeExam);
+
+    function loadJobs(){
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/viewAllJobs', true);
+
+        xhr.onload = function(){
+            if(this.status == 200){
+                var job = JSON.parse(this.responseText);
+
+                var arrayLength = job.length;
+
+                var t='';
+                for (i = 0; i < arrayLength; i++) {
+                    var tr = "<tr>";
+                    tr += "<td id='title'>" +job[i].title+"</td>";
+                    tr += "<td id='salary'>" +job[i].salary+"</td>";
+                    tr += "<td id='description'>" +job[i].description+"</td>";
+                    tr += "<td id='location'>" +job[i].location+"</td>";
+                    tr += "<td id='yearsexp'>" +job[i].yearsexp+"</td>";
+                    tr += "<td id='skills'>" +job[i].skills+"</td>";
+                    // tr += "<td id='Points'><input type = 'textarea' class='points' name='points[]' id='points'></textarea>";
+                    tr += "<td><input type = 'checkbox' name='check[]' value='checkbox' id='Checkbox'></checkbox>";
+                    t += tr;
+
+                }
+                document.getElementById("myTable").innerHTML+= t;
+            }
+            if(this.status == 404){
+                console.log("404 error");
+            }
+        }
+
+        xhr.send();
+    }
+
+    function makeExam(){
+        var table = document.getElementById('myTable');
+        var rowCells;
+        var checkbox;
+        var input;
+        var test = [];
+
+        console.log('button pressed');
+
+        var rowCount = document.getElementById('myTable').rows.length;
+        for (var z = 1; z < rowCount; z++) {
+            rowCells = table.rows[z].cells;
+            checkbox = table.rows[z].querySelectorAll('input[type="checkbox"]');
+            // input = table.rows[z].querySelectorAll('input[type="textarea"');
+
+            if (checkbox[0].checked == true) {
+
+                test.push({
+                    title: rowCells[0].innerHTML,
+                    // functionname: rowCells[4].innerHTML,
+                    // Points: input[0].value
+                });
+            }
+        }
+
+        $payload = JSON.stringify(test);
+
+        console.log($payload);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://afsaccess1.njit.edu/~kp486/TestAdd.php', true);
+        xhr.setRequestHeader('Content-Type','application/json');
+        xhr.send($payload);
+        // xhr.open('POST', 'http://afsaccess1.njit.edu/~ntb6/invalid.html', true);
+        // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        // xhr.open("POST","http://afsaccess1.njit.edu/~ntb6/invalid.html",true);
+        // window.location.href = "http://afsaccess1.njit.edu/~ntb6/invalid.html";
+
+          // {
+          // }
+          {
+          document.write("Added Job(s)...");
+          // setTimeout('Redirect()', 5000);
+      }
+    }
+    function filter(){
+
+        var keyword, location;
+
+        keyword = document.getElementById("myinput").value;
+        location = document.getElementById("locationlist").value;
+
+
+        if (location == "Filter By Location") {
+            location = "";
+        }
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("myTable").innerHTML= this.responseText;
+            }
+        };
+
+        xmlhttp.open("POST","https://be0nkygd1e.execute-api.us-east-1.amazonaws.com/filterJobs",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+         
+
+        xmlhttp.send("keyword=" +encodeURIComponent(keyword)
+  + "&location=" +encodeURIComponent(location));
+
+    // var newquestions = JSON.parse(this.responseText);
+    // document.getElementByID("myTable") = newquestions;
+
+  }
+//
+// function Redirect()
+// {
+// window.location="WelcomeInst.php";
+// }
+</script>
+</body>
