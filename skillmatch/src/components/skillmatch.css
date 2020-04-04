@@ -1,0 +1,25 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100px;
+  margin: 0px auto;
+  max-width: 200;
+  align-content: center;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding: 4px;
+}
+
+.t-header {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.column1 {
+  width: ;
+}
